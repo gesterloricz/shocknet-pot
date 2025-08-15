@@ -14,10 +14,9 @@ Route::resource('orders', OrdersController::class)->only([
 ]);
 
 // Clients routes
-Route::resource('clients', ClientsController::class)->only([
-    'index', 'show', 'edit', 'update', 'delete'
+route::resource('clients', ClientsController::class)->only([
+    'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
 ]);
-
 // Reports routes
 Route::resource('reports', ReportsController::class)->only([
     'index'

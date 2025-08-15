@@ -30,9 +30,8 @@
                     <button type="button" class="btn btn-outline-custom-secondary">
                         Export
                     </button>
-                    <button type="button" class="btn btn-custom-primary">
-                        <i class="fas fa-plus me-1"></i>New Client
-                    </button>
+                    <a href="{{ route('clients.create') }}" class="btn btn-custom-primary">
+                        Add New Client</a>
                 </div>
             </div>
 
@@ -65,93 +64,31 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse ($clients as $client)
                         <tr>
-                            <td class="fw-medium">1</td>
-                            <td>ABC Marketing</td>
-                            <td>test@example.com</td>
-                            <td>+639201238213</td>
+                            <td>{{ $client->id }}</td>
+                            <td>{{ $client->client_name }}</td>
+                            <td>{{ $client->email }}</td>
+                            <td>{{ $client->phone_number }}</td>
                             <td>
-                                <span class="badge bg-success rounded-pill px-3 py-2">Active</span>
+                                <span class="badge bg-{{ $client->status == 'active' ? 'success' : 'secondary' }}">
+                                    {{ ucfirst($client->status) }}
+                                </span>
                             </td>
-                            <td class="text-center">0</td>
+                            <td>{{ $client->projects_count }}</td>
                             <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn btn-outline-custom-secondary btn-sm" title="View">
-                                        View
-                                    </button>
-                                    <a href="{{ route('clients.edit', 1) }}" class="btn btn-outline-custom-primary btn-sm" title="Edit">
-                                        Edit
                             </td>
-                        </tr>
+                            @empty
                         <tr>
-                            <td class="fw-medium">2</td>
-                            <td>ABC Marketing</td>
-                            <td>test@example.com</td>
-                            <td>+639201238213</td>
-                            <td>
-                                <span class="badge bg-danger rounded-pill px-3 py-2">Inactive</span>
-                            </td>
-                            <td class="text-center">0</td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn btn-outline-custom-secondary btn-sm" title="View">
-                                        View
-                                    </button>
-                                    <button class="btn btn-outline-custom-primary btn-sm" title="Edit">
-                                        Edit
-                                    </button>
-                                </div>
-                            </td>
+                            <td colspan="7" class="text-center">No clients found.</td>
                         </tr>
-                        <tr>
-                            <td class="fw-medium">3</td>
-                            <td>ABC Marketing</td>
-                            <td>test@example.com</td>
-                            <td>+639201238213</td>
-                            <td>
-                                <span class="badge bg-success rounded-pill px-3 py-2">Active</span>
-                            </td>
-                            <td class="text-center">0</td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn btn-outline-custom-secondary btn-sm" title="View">
-                                        View
-                                    </button>
-                                    <button class="btn btn-outline-custom-primary btn-sm" title="Edit">
-                                        Edit
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="fw-medium">4</td>
-                            <td>ABC Marketing</td>
-                            <td>test@example.com</td>
-                            <td>+639201238213</td>
-                            <td>
-                                <span class="badge bg-success rounded-pill px-3 py-2">Active</span>
-                            </td>
-                            <td class="text-center">0</td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn btn-outline-custom-secondary btn-sm" title="View">
-                                        View
-                                    </button>
-                                    <button class="btn btn-outline-custom-primary btn-sm" title="Edit">
-                                        Edit
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mt-4">
-                <div class="text-muted">
-                    Showing 1 to 4 of 156 entries
-                </div>
-                <nav aria-label="Client pagination">
+            <div class="d-flex justify-content-end align-items-center mt-4">
+                <nav aria-label="Client pagination just">
                     <ul class="pagination pagination-sm mb-0">
                         <li class="page-item-hover">
                             <a class="page-link" href="#" tabindex="-1">Previous</a>

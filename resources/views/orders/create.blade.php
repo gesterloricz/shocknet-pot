@@ -499,57 +499,57 @@
 
 <style>
     :root {
-        --brand-primary: #ED1C24;
-        --brand-primary-hover: #A11219FF;
-        --brand-secondary: #050A30;
-        --brand-light: #f8f9fa;
-        --brand-lighter: #e9ecef;
-        --brand-white: #ffffff;
-        --brand-focus-shadow: rgba(20, 30, 80, 0.25);
+        --primay-color: #ED1C24;
+        --primay-color-hover: #A11219FF;
+        --secondary-color: #050A30;
+        --color-light: #f8f9fa;
+        --color-lighter: #e9ecef;
+        --: #ffffff;
+        --color-focus-shadow: rgba(20, 30, 80, 0.25);
     }
 
     .text-primary {
-        color: var(--brand-primary) !important;
+        color: var(--primay-color) !important;
     }
 
     .text-secondary {
-        color: var(--brand-secondary) !important;
+        color: var(--secondary-color) !important;
     }
 
     .btn-custom-primary {
-        background-color: var(--brand-primary);
-        border-color: var(--brand-primary);
-        color: var(--brand-white);
+        background-color: var(--primay-color);
+        border-color: var(--primay-color);
+        color: var(--);
     }
 
     .btn-custom-primary:hover {
-        background-color: var(--brand-primary-hover);
-        border-color: var(--brand-primary-hover);
-        color: var(--brand-white);
+        background-color: var(--primay-color-hover);
+        border-color: var(--primay-color-hover);
+        color: var(--);
     }
 
     .btn-outline-custom-secondary {
-        color: var(--brand-secondary);
-        border-color: var(--brand-secondary);
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
         background-color: transparent;
     }
 
     .btn-outline-custom-secondary:hover {
-        background-color: var(--brand-secondary);
-        border-color: var(--brand-secondary);
-        color: var(--brand-white);
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: var(--);
     }
 
     .progress-line {
         height: 2px;
-        background-color: var(--brand-lighter);
+        background-color: var(--color-lighter);
         top: 50%;
         z-index: 1;
     }
 
     .progress-line-active {
         height: 2px;
-        background-color: var(--brand-primary);
+        background-color: var(--primay-color);
         top: 50%;
         z-index: 2;
         width: 0%;
@@ -557,8 +557,8 @@
     }
 
     .form-check-input:checked {
-        background-color: var(--brand-primary);
-        border-color: var(--brand-primary);
+        background-color: var(--primay-color);
+        border-color: var(--primay-color);
     }
 
     .step-item {
@@ -572,34 +572,34 @@
     }
 
     .step-circle-active {
-        background-color: var(--brand-primary) !important;
-        color: var(--brand-white) !important;
+        background-color: var(--primay-color) !important;
+        color: var(--) !important;
     }
 
     .step-circle-inactive {
-        background-color: var(--brand-light) !important;
+        background-color: var(--color-light) !important;
         color: #6c757d !important;
     }
 
     .upload-area {
-        border: 2px dashed var(--brand-lighter);
-        background-color: var(--brand-light);
+        border: 2px dashed var(--color-lighter);
+        background-color: var(--color-light);
         cursor: pointer;
         transition: background-color 0.2s ease;
     }
 
     .upload-area:hover {
-        background-color: var(--brand-lighter) !important;
+        background-color: var(--color-lighter) !important;
     }
 
     .upload-area.dragover {
-        background-color: var(--brand-lighter) !important;
+        background-color: var(--color-lighter) !important;
     }
 
     .form-control:focus,
     .form-select:focus {
-        border-color: var(--brand-secondary);
-        box-shadow: 0 0 0 0.2rem var(--brand-focus-shadow);
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.2rem var(--color-focus-shadow);
     }
 </style>
 @endsection

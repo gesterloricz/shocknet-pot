@@ -28,61 +28,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse($orders as $order)
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $order->id }}</td>
+                            <td>{{ $order->client->name ?? 'N/A' }}</td>
+                            <td>{{ $order->project->name ?? 'N/A' }}</td>
+                            <td>{{ $order->status }}</td>
+                            <td>{{ $order->due_date }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-custom-secondary">View</a>
-                                <a href="#" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
+                                <a href="{{ route('orders.show', $order) }}" class="btn btn-sm btn-outline-custom-secondary">View</a>
+                                <a href="{{ route('orders.edit', $order) }}" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
                             </td>
                         </tr>
+                        @empty
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-custom-secondary">View</a>
-                                <a href="#" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
-                            </td>
+                            <td colspan="6" class="text-center">No orders found.</td>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-custom-secondary">View</a>
-                                <a href="#" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-custom-secondary">View</a>
-                                <a href="#" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-custom-secondary">View</a>
-                                <a href="#" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -92,7 +54,6 @@
     <!-- details -->
     <div class="card mt-4">
         <div class="card-body">
-            <h5 class="card-title text-custom-primary">Order #2025-002 - Shocknet Timeline Details</h5>
 
             <!-- timeline -->
             <div class="row mt-4">
@@ -168,64 +129,60 @@
 
             <div class="mt-4">
                 <button class="btn btn-custom-primary me-2">Update Status</button>
-                <button class="btn btn-outline-custom-secondary me-2">Add Note</button>
-                <button class="btn btn-outline-custom-secondary me-2">Contact Client</button>
-                <button class="btn btn-outline-custom-secondary me-2">Generate Report</button>
-            </div>
         </div>
     </div>
 </div>
 
 <style>
     :root {
-        --brand-primary: #ED1C24;
-        --brand-primary-hover: #A11219FF;
-        --brand-secondary: #050A30;
-        --brand-secondary-hover: #050A30;
-        --brand-light: #f8f9fa;
-        --brand-white: #ffffff;
+        --primary-color: #ED1C24;
+        --primary-color-hover: #A11219FF;
+        --secondary-color: #050A30;
+        --secondary-color-hover: #050A30;
+        --color-light: #f8f9fa;
+        --color-white: #ffffff;
     }
 
     .btn-custom-primary {
-        background-color: var(--brand-primary);
-        border-color: var(--brand-primary);
-        color: var(--brand-white);
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: var(--color-white);
     }
 
     .btn-custom-primary:hover {
-        background-color: var(--brand-primary-hover);
-        border-color: var(--brand-primary-hover);
-        color: var(--brand-white);
+        background-color: var(--primary-color-hover);
+        border-color: var(--primary-color-hover);
+        color: var(--color-white);
     }
 
     .btn-outline-custom-primary {
-        color: var(--brand-primary);
-        border-color: var(--brand-primary);
+        color: var(--primary-color);
+        border-color: var(--primary-color);
         background-color: transparent;
     }
 
     .btn-outline-custom-primary:hover {
-        background-color: var(--brand-primary-hover);
-        border-color: var(--brand-primary-hover);
-        color: var(--brand-white);
+        background-color: var(--primary-color-hover);
+        border-color: var(--primary-color-hover);
+        color: var(--color-white);
     }
 
     .btn-custom-secondary {
-        background-color: var(--brand-secondary);
-        border-color: var(--brand-secondary);
-        color: var(--brand-white);
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: var(--color-white);
     }
 
     .btn-outline-custom-secondary {
-        color: var(--brand-secondary);
-        border-color: var(--brand-secondary);
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
         background-color: transparent;
     }
 
     .btn-outline-custom-secondary:hover {
-        background-color: var(--brand-secondary);
-        border-color: var(--brand-secondary);
-        color: var(--brand-white);
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        color: var(--color-white);
     }
 
     .btn-outline-custom-success {
@@ -237,7 +194,7 @@
     .btn-outline-custom-success:hover {
         background-color: var(--brand-success);
         border-color: var(--brand-success);
-        color: var(--brand-white);
+        color: var(--color-white);
     }
 
     .btn-outline-custom-info {
@@ -249,19 +206,19 @@
     .btn-outline-custom-info:hover {
         background-color: var(--brand-info);
         border-color: var(--brand-info);
-        color: var(--brand-white);
+        color: var(--color-white);
     }
 
     .text-custom-primary {
-        color: var(--brand-secondary) !important;
+        color: var(--secondary-color) !important;
     }
 
     .bg-custom-secondary {
-        background-color: var(--brand-primary) !important;
+        background-color: var(--primary-color) !important;
     }
 
     .border-custom-secondary {
-        border-color: var(--brand-secondary) !important;
+        border-color: var(--secondary-color) !important;
     }
 
     .timeline-step {
@@ -270,7 +227,7 @@
     }
 
     .timeline-connector {
-        border-color: var(--brand-primary);
+        border-color: var(--primary-color);
         border-width: 1px;
     }
 </style>
