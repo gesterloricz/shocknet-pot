@@ -24,25 +24,29 @@ class OrdersController extends Controller
         return view('orders.create', compact('clients', 'projects'));
     }
 
-    public function status (Order $order)
+    public function status(Order $order)
     {
-    
+
         return view('orders.status', compact('order'));
     }
 
     // Store a new order
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'project_id' => 'required|exists:projects,id',
-            'status' => 'required|string|max:255',
-            'due_date' => 'required|date'
+        $validatedData = $request->validate([
+            'client_name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone_number' => 'nullable|string|max:20',
         ]);
 
-        Order::create($validated);
+        Client::create([
+            'client_name' => $validatedData['client_name'],
+            'email' => $validatedData['email'] ?? null,
+            'phone_number' => $validatedData['phone_number'] ?? null,
+            'status' => 'active', // Default status
+        ]);
 
-        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
+        return redirect()->route('clients.index')->with('success', 'Client created successfully.');
     }
 
     // Show single order

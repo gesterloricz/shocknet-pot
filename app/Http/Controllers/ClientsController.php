@@ -14,9 +14,10 @@ class ClientsController extends Controller
     {
         // Fetch all clients from the database
         $clients = Client::all();
+        $totalClients = $clients->count();
 
         // Return the view with the clients data
-        return view('clients.index', compact('clients'));
+        return view('clients.index', compact('clients', 'totalClients'));
     }
 
     /**

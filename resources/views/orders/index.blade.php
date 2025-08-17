@@ -108,7 +108,7 @@
                             <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
                                 <small>6</small>
                             </div>
-                            <div class="small mt-1">Delivery</div>
+                            <div class="small mt-1">Complete</div>
                         </div>
                     </div>
                 </div>

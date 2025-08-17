@@ -6,7 +6,7 @@
         <div class="col-md-6 mb-3">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body text-center py-4">
-                    <h2 class="display-4 fw-bold text-primary mb-2">0</h2>
+                    <h2 class="display-4 fw-bold text-primary mb-2">{{ $totalClients }}</h2>
                     <p class="text-muted mb-0">Total Clients</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                     <tbody>
                         @forelse ($clients as $client)
                         <tr>
-                            <td>{{ $client->id }}</td>
+                            <td>{{ $client->client_id }}</td>
                             <td>{{ $client->client_name }}</td>
                             <td>{{ $client->email }}</td>
                             <td>{{ $client->phone_number }}</td>
