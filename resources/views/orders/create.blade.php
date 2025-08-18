@@ -87,10 +87,6 @@
                                     <label for="project_name" class="form-label">Project Name</label>
                                     <input type="text" class="form-control" id="project_name" name="project_name" required>
                                 </div>
-                                <div class="col-12">
-                                    <label for="additional_requirements" class="form-label">Additional Requirements / Notes</label>
-                                    <textarea class="form-control" id="additional_requirements" name="additional_requirements" rows="4"></textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,16 +118,11 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Printing Method Preference</label>
-                                <div class="mt-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="printing_method" id="offset_printing" value="offset_high_volume">
-                                        <label class="form-check-label" for="offset_printing">Offset Printing (High Volume)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="printing_method" id="digital_printing" value="digital_low_volume">
-                                        <label class="form-check-label" for="digital_printing">Digital Printing (Low Volume)</label>
-                                    </div>
-                                </div>
+                                <select class="form-select" id="product_type" name="product_type" required>
+                                    <option value="">Select Product Type</option>
+                                    <option value="business_cards">Offset Printing (High Volume)</option>
+                                    <option value="brochures">Digital Printing (Low Volume)</option>
+                                </select>
                             </div>
                         </div>
 
@@ -179,37 +170,24 @@
                     <div class="p-4 bg-white rounded">
                         <h6 class="text-dark fw-bold mb-3">Post-Press Finishing Options</h6>
 
-                        <div class="mb-3">
-                            <label class="form-label">Finishing Option</label>
-                            <div class="d-flex flex-wrap gap-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="cutting_trimming" name="finishing_options[]" value="cutting_trimming">
-                                    <label class="form-check-label" for="cutting_trimming">Cutting / Trimming</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="folding" name="finishing_options[]" value="folding">
-                                    <label class="form-check-label" for="folding">Folding</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="lamination" name="finishing_options[]" value="lamination">
-                                    <label class="form-check-label" for="lamination">Lamination</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="varnishing" name="finishing_options[]" value="varnishing">
-                                    <label class="form-check-label" for="varnishing">Varnishing</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="die_cutting" name="finishing_options[]" value="die_cutting">
-                                    <label class="form-check-label" for="die_cutting">Die-Cutting</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="embossing" name="finishing_options[]" value="embossing">
-                                    <label class="form-check-label" for="embossing">Embossing</label>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="binding_type" class="form-label">Finishing Option</label>
+                                <select class="form-select" id="finishing_option" name="finishing_option">
+                                    <option value="">Select Finishing Option</option>
+                                    <option value="">Cutting/Trimming</option>
+                                    <option value="">Folding</option>
+                                    <option value="">Lamination</option>
+                                    <option value="">Vanishing</option>
+                                    <option value="">Die-Cutting</option>
+                                    <option value="">Embossing</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="row g-3">
+
+
+                        <div class="row g-3 mt-2">
                             <div class="col-md-6">
                                 <label for="binding_type" class="form-label">Binding Type</label>
                                 <select class="form-select" id="binding_type" name="binding_type">
@@ -219,10 +197,6 @@
                                     <option value="spiral_bound">Spiral Bound</option>
                                     <option value="wire_bound">Wire Bound</option>
                                 </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="finishing_instructions" class="form-label">Finishing Instructions</label>
-                                <textarea class="form-control" id="finishing_instructions" name="finishing_instructions" rows="4"></textarea>
                             </div>
                         </div>
 
@@ -263,27 +237,19 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">File Status</label>
                                     <div class="mt-2">
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="file_status" id="print_ready" value="print_ready">
-                                            <label class="form-check-label" for="print_ready">Print-ready files</label>
-                                        </div>
-                                        <div class="form-check mb-2">
-                                            <input class="form-check-input" type="radio" name="file_status" id="needs_prepress" value="needs_prepress">
-                                            <label class="form-check-label" for="needs_prepress">Needs pre-press work</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="file_status" id="requires_design" value="requires_design">
-                                            <label class="form-check-label" for="requires_design">Requires design service</label>
+                                        <label for="file_status" class="form-label">File Status</label>
+                                        <div class="mt-2">
+                                            <select class="form-select" id="binding_type" name="binding_type">
+                                                <option value="">Select</option>
+                                                <option value="">Print-Ready Files</option>
+                                                <option value="">Needs Pre-Press Work</option>
+                                                <option value="">Requires Design Service</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-12">
-                                    <label for="file_notes" class="form-label">File Notes & Instructions</label>
-                                    <textarea class="form-control" id="file_notes" name="file_notes" rows="4" placeholder="Any specific instructions for handling the files..."></textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -337,36 +303,18 @@
 
                     <div class="p-4 bg-white rounded">
                         <h6 class="text-dark fw-bold mb-3">Packaging & Special Requirements</h6>
-                        <div class="row g-3">
+                        <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label">Packaging Requirements</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="standard_packaging" name="packaging_options[]" value="standard_packaging">
-                                            <label class="form-check-label" for="standard_packaging">Standard Packaging</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="custom_branded" name="packaging_options[]" value="custom_branded">
-                                            <label class="form-check-label" for="custom_branded">Custom Branded Packaging</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="bulk_packaging" name="packaging_options[]" value="bulk_packaging">
-                                            <label class="form-check-label" for="bulk_packaging">Bulk Packaging</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="individual_wrapping" name="packaging_options[]" value="individual_wrapping">
-                                            <label class="form-check-label" for="individual_wrapping">Individual wrapping</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                <label for="delivery_method" class="form-label">Packing Requirements</label>
+                                <select class="form-select" id="delivery_method" name="delivery_method">
+                                    <option value="">Select Packing Requirement</option>
+                                    <option value="">Standard Packaging</option>
+                                    <option value="">Custom Branded Packaging</option>
+                                    <option value="">Bulk Packaging</option>
+                                    <option value="">Individual wrapping</option>
+                                </select>
                             </div>
-                            <div class="col-md-6">
-                                <label for="special_instructions" class="form-label">Special Instructions</label>
-                                <textarea class="form-control" id="special_instructions" name="special_instructions" rows="6"></textarea>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -493,7 +441,7 @@
         }
 
         showStep(1);
-        
+
     });
 </script>
 

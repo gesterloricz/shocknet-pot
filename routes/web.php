@@ -4,26 +4,35 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\AuthController;
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 
-// Redirect root to orders
-Route::redirect('/', '/orders');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Orders routes
-Route::resource('orders', OrdersController::class)->only([
-    'index', 'create', 'show', 'edit', 'store'
-]);
+Route::middleware('auth')->group(function () {
+    Route::resource('orders', OrdersController::class)->only([
+        'index',
+        'create',
+        'show',
+        'edit',
+        'store'
+    ]);
 
-// Clients routes
-route::resource('clients', ClientsController::class)->only([
-    'index', 'create', 'store', 'show', 'edit', 'update', 'destroy'
-]);
-// Reports routes
-Route::resource('reports', ReportsController::class)->only([
-    'index'
-]);
+    Route::resource('clients', ClientsController::class)->only([
+        'index',
+        'create',
+        'store',
+        'show',
+        'edit',
+        'update',
+        'destroy'
+    ]);
 
-// Logout route (placeholder)
-Route::get('/logout', function () {
-    // Add actual logout logic later
-    return redirect()->route('orders.index');
-})->name('logout');
+    Route::resource('reports', ReportsController::class)->only([
+        'index'
+    ]);
+});

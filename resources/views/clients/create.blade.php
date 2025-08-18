@@ -18,7 +18,6 @@
             <h5 class="mb-4 fw-semibold text-dark">1. Client Information</h5>
             <div class="row g-4">
 
-                <!-- Client Name -->
                 <div class="col-md-6">
                     <label for="client_name" class="form-label text-dark fw-medium">Client Name</label>
                     <input type="text"
@@ -30,7 +29,6 @@
                         required>
                 </div>
 
-                <!-- Email -->
                 <div class="col-md-6">
                     <label for="email" class="form-label text-dark fw-medium">Email</label>
                     <input type="email"
@@ -40,8 +38,7 @@
                         value="{{ old('email') }}"
                         placeholder="Enter email address">
                 </div>
-
-                <!-- Phone Number -->
+                
                 <div class="col-md-6">
                     <label for="phone_number" class="form-label text-dark fw-medium">Phone Number</label>
                     <input type="tel"
