@@ -31,10 +31,10 @@
                         @forelse($orders as $order)
                         <tr>
                             <td>{{ $order->id }}</td>
-                            <td>{{ $order->client->name ?? 'N/A' }}</td>
-                            <td>{{ $order->project->name ?? 'N/A' }}</td>
+                            <td>{{ $order->client->client_name ?? 'N/A' }}</td>
+                            <td>{{ $order->project_name ?? 'N/A' }}</td>
                             <td>{{ $order->status }}</td>
-                            <td>{{ $order->due_date }}</td>
+                            <td>{{ $order->delivery->delivery_date ?? 'N/A' }}</td>
                             <td>
                                 <a href="{{ route('orders.show', $order) }}" class="btn btn-sm btn-outline-custom-secondary">View</a>
                                 <a href="{{ route('orders.edit', $order) }}" class="btn btn-sm btn-outline-custom-primary me-1">Edit</a>
@@ -48,87 +48,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <!-- details -->
-    <div class="card mt-4">
-        <div class="card-body">
-
-            <!-- timeline -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>1</small>
-                            </div>
-                            <div class="small mt-1">Client Briefing</div>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <hr class="timeline-connector">
-                        </div>
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>2</small>
-                            </div>
-                            <div class="small mt-1">Pre-press</div>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <hr class="timeline-connector">
-                        </div>
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>3</small>
-                            </div>
-                            <div class="small mt-1">Printing</div>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <hr class="timeline-connector">
-                        </div>
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>4</small>
-                            </div>
-                            <div class="small mt-1">Post-press</div>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <hr class="timeline-connector">
-                        </div>
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>5</small>
-                            </div>
-                            <div class="small mt-1">Packaging</div>
-                        </div>
-                        <div class="flex-fill mx-2">
-                            <hr class="timeline-connector">
-                        </div>
-                        <div class="text-center">
-                            <div class="rounded-circle bg-custom-secondary text-white d-inline-flex align-items-center justify-content-center timeline-step">
-                                <small>6</small>
-                            </div>
-                            <div class="small mt-1">Complete</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- status -->
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <strong>Current Status:</strong> ?? ???????? ? ????????? ?????
-                </div>
-                <div class="col-md-4">
-                    <strong>Estimated Completion:</strong> ???? ??? ????
-                </div>
-                <div class="col-md-4">
-                    <strong>Next Stage:</strong> ???????? ?????
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <button class="btn btn-custom-primary me-2">Update Status</button>
         </div>
     </div>
 </div>

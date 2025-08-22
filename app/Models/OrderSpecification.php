@@ -2,29 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderSpecification extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
+        'project_id',
         'product_type',
         'quantity',
         'printing_method',
-        'size_dimensions',
+        'size',
         'paper_type',
-        'paper_weight_gsm',
-        'color_specification',
+        'paper_weight',
+        'color_spec',
+        'finishing_option',
         'binding_type',
         'lamination_type',
-        'finishing_instructions',
     ];
 
-    public function order()
+    public function project()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Project::class);
     }
 }

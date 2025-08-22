@@ -5,20 +5,20 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void {
-        Schema::create('order_delivery', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::create('order_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
-            $table->date('required_delivery_date')->nullable();
-            $table->enum('priority_level', ['low', 'normal', 'high', 'urgent'])->default('normal');
-            $table->text('delivery_address')->nullable();
-            $table->string('delivery_method', 100)->nullable();
-            $table->string('estimated_production_time', 100)->nullable();
-            $table->text('special_instructions')->nullable();
+            $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->string('delivery_address');
+            $table->date('delivery_date');
+            $table->string('delivery_method');
+            $table->string('packing_requirements')->nullable();
             $table->timestamps();
         });
     }
-    public function down(): void {
+    public function down(): void
+    {
         Schema::dropIfExists('order_delivery');
     }
 };

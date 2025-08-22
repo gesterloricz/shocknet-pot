@@ -81,9 +81,9 @@
                         class="nav-btn {{ request()->routeIs('clients.*') ? 'active' : '' }}">
                         Clients
                     </a>
-                    <a href="{{ route('reports.index') }}"
+                    <a href="{{ route('products.index') }}"
                         class="nav-btn {{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                        Reports
+                        Products
                     </a>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                         @csrf

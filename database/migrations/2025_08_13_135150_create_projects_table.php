@@ -9,15 +9,10 @@ return new class extends Migration {
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')
-                ->constrained('clients', 'client_id')
-                ->cascadeOnDelete();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('project_name');
-            $table->text('project_description')->nullable();
-            $table->enum('status', ['active', 'completed', 'on_hold', 'cancelled'])->default('active');
+            $table->string('status')->default('in-progress');
             $table->timestamps();
-
-            $table->index('status');
         });
     }
     public function down(): void

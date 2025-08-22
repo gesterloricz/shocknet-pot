@@ -10,20 +10,17 @@ class Client extends Model
     use HasFactory;
 
     protected $fillable = [
-        'client_id',
         'client_name',
         'email',
         'phone_number',
         'status',
     ];
 
+    /**
+     * A client can have many projects
+     */
     public function projects()
     {
         return $this->hasMany(Project::class);
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
     }
 }

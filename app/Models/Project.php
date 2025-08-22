@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
@@ -12,17 +12,38 @@ class Project extends Model
     protected $fillable = [
         'client_id',
         'project_name',
-        'project_description',
         'status',
     ];
 
+    /**
+     * A project belongs to a client
+     */
     public function client()
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function orders()
+    /**
+     * A project has one order specification
+     */
+    public function specification()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasOne(OrderSpecification::class);
+    }
+
+    /**
+     * A project can have many uploaded files
+     */
+    public function files()
+    {
+        return $this->hasMany(OrderFile::class);
+    }
+
+    /**
+     * A project has one delivery record
+     */
+    public function delivery()
+    {
+        return $this->hasOne(OrderDelivery::class);
     }
 }

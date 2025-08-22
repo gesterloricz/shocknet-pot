@@ -2,26 +2,20 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class OrderFile extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
-        'file_name',
+        'project_id',
         'file_path',
-        'file_size',
-        'file_type',
-        'file_status',
-        'file_notes',
-        'uploaded_at',
     ];
 
-    public function order()
+    public function project()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Project::class);
     }
 }

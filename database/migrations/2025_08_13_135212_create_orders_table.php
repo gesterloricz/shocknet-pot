@@ -9,26 +9,11 @@ return new class extends Migration {
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('order_number', 50)->unique();
-
-            // Reference correct PK in clients table
-            $table->foreignId('client_id')
-                ->constrained('clients', 'client_id')
-                ->cascadeOnDelete();
-
-            // Reference correct PK in projects table
-            $table->foreignId('project_id')
-                ->nullable()
-                ->constrained('projects', 'id') // since your projects table uses default "id"
-                ->nullOnDelete();
-
-            $table->enum('status', ['draft', 'submitted', 'in_progress', 'completed', 'cancelled'])
-                ->default('draft');
-            $table->decimal('total_amount', 10, 2)->nullable();
+            $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->nullable()->constrained()->onDelete('set null');
+            $table->enum('status', ['Pre-press', 'Printing', 'Post-press', 'Packaging', 'Complete', 'Cancelled'])->default('Pre-press');
+            $table->date('due_date')->nullable();
             $table->timestamps();
-
-            $table->index('status');
-            $table->index('created_at');
         });
     }
     public function down(): void

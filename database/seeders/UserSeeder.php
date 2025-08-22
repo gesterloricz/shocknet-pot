@@ -13,6 +13,25 @@ class UserSeeder extends Seeder
         User::create([
             'username' => 'admin',
             'password' => Hash::make('admin'),
+            'role' => 'admin',
+        ]);
+
+        User::create([
+            'username' => 'printer',
+            'password' => Hash::make('printer'),
+            'role' => 'printing',
+        ]);
+
+        User::create([
+            'username' => 'postpress',
+            'password' => Hash::make('postpress'),
+            'role' => 'postpress',
+        ]);
+
+        User::create([
+            'username' => 'packaging',
+            'password' => Hash::make('packaging'),
+            'role' => 'packaging',
         ]);
     }
 }
