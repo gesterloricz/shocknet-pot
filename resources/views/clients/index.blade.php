@@ -63,10 +63,10 @@
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody> 
                         @forelse ($clients as $client)
                         <tr>
-                            <td>{{ $client->client_id }}</td>
+                            <td>{{ $client->id }}</td>
                             <td>{{ $client->client_name }}</td>
                             <td>{{ $client->email }}</td>
                             <td>{{ $client->phone_number }}</td>
@@ -165,22 +165,18 @@
         color: var(--brand-white);
     }
 
-    /* Custom Text Colors */
     .text-custom-primary {
         color: var(--brand-secondary) !important;
     }
 
-    /* Custom Background Colors */
     .bg-custom-secondary {
         background-color: var(--brand-secondary) !important;
     }
 
-    /* Custom Border Colors */
     .border-custom-secondary {
         border-color: var(--brand-secondary) !important;
     }
 
-    /* Additional styling for better visual match */
     .card {
         border-radius: 0.5rem;
     }
@@ -218,7 +214,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Search functionality
         const searchInput = document.getElementById('clientSearch');
         const tableRows = document.querySelectorAll('tbody tr');
 

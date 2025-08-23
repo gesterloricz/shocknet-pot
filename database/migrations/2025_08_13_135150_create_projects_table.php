@@ -11,10 +11,13 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('project_name');
-            $table->string('status')->default('in-progress');
+            $table->enum('status', ['Pre-press', 'Printing', 'Post-press', 'Packaging'])
+                  ->default('Pre-press');
+
             $table->timestamps();
         });
     }
+
     public function down(): void
     {
         Schema::dropIfExists('projects');

@@ -4,46 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Project;
-use App\Models\Order;
 use App\Models\OrderSpecification;
 use App\Models\OrderFile;
 use App\Models\OrderDelivery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
-    /**
-     * Show all orders (projects)
-     */
     public function index()
     {
-
         $orders = Project::with(['client', 'delivery'])->get();
         return view('orders.index', compact('orders'));
     }
 
-    /**
-     * Show create form (step 1)
-     */
     public function create()
     {
         return view('orders.create');
     }
 
-    /**
-     * Store a new order (multi-step)
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            // Step 1: Client + Project
+            // Client + Project
             'client_name'       => 'required|string|max:255',
             'email'             => 'nullable|email|max:255',
             'phone_number'      => 'nullable|string|max:20',
             'project_name'      => 'required|string|max:255',
 
-            // Step 2: Product Specification
+            // Product Specification
             'product_type'      => 'required|string',
             'quantity'          => 'required|integer|min:1',
             'printing_method'   => 'required|string',
@@ -55,11 +45,11 @@ class OrdersController extends Controller
             'binding_type'      => 'nullable|string',
             'lamination_type'   => 'nullable|string',
 
-            // Step 3: Files
+            // Files
             'artwork_file.*'    => 'file|mimes:pdf,jpg,png,ai,psd|max:10240',
             'file_status'       => 'nullable|string',
 
-            // Step 4: Delivery Info
+            // Delivery Info
             'delivery_address'  => 'required|string|max:500',
             'delivery_date'     => 'required|date',
             'delivery_method'   => 'required|string',
@@ -80,7 +70,7 @@ class OrdersController extends Controller
             $project = Project::create([
                 'client_id'    => $client->id,
                 'project_name' => $validated['project_name'],
-                'status'       => 'in-progress',
+                'status'       => 'Pre-press',
             ]);
 
             // product specification
@@ -125,45 +115,125 @@ class OrdersController extends Controller
         return redirect()->route('orders.index')->with('success', 'Order placed successfully!');
     }
 
-    /**
-     * Show single order (project with details)
-     */
     public function show(Project $project)
     {
         $project->load(['client', 'specification', 'files', 'delivery']);
         return view('orders.show', compact('project'));
     }
 
-    /**
-     * Edit order (basic example)
-     */
     public function edit(Project $project)
     {
-        $project->load(['specification', 'delivery']);
-        return view('orders.edit', ['order' => $project]);
+        // Load all related data needed for the edit form
+        $project->load(['client', 'specification', 'delivery', 'files']);
+        
+        // Calculate next stage for the timeline
+        $statuses = ['Pre-press', 'Printing', 'Post-press', 'Packaging', 'Complete'];
+        $currentIndex = array_search($project->status, $statuses);
+        $nextStage = isset($statuses[$currentIndex + 1]) ? $statuses[$currentIndex + 1] : 'Complete';
+        
+        return view('orders.edit', compact('project', 'nextStage'));
     }
 
-    /**
-     * Update order
-     */
     public function update(Request $request, Project $project)
     {
         $validated = $request->validate([
-            'project_name' => 'required|string|max:255',
-            'status'       => 'required|string|max:255',
+            // Project fields
+            'status'          => 'required|in:pre-press,printing,post-press,packaging,complete',
+            'priority'        => 'nullable|in:normal,high,urgent',
+            'delivery_date'   => 'nullable|date',
+            'production_time' => 'nullable|string|max:255',
+            'notes'           => 'nullable|string',
+            
+            // Product specification fields
+            'product_type'      => 'nullable|string',
+            'quantity'          => 'nullable|integer|min:1',
+            'printing_method'   => 'nullable|string',
+            'size'              => 'nullable|string',
+            'paper_type'        => 'nullable|string',
+            'paper_weight'      => 'nullable|string',
+            'color_spec'        => 'nullable|string',
+            
+            // Delivery fields
+            'delivery_address'  => 'nullable|string|max:500',
+            'delivery_method'   => 'nullable|string',
         ]);
 
-        $project->update($validated);
+        DB::transaction(function () use ($validated, $project) {
+            // Update project
+            $project->update([
+                'status' => $validated['status'],
+            ]);
 
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+            // Update specification if exists
+            if ($project->specification) {
+                $specificationData = array_filter([
+                    'product_type' => $validated['product_type'] ?? null,
+                    'quantity' => $validated['quantity'] ?? null,
+                    'printing_method' => $validated['printing_method'] ?? null,
+                    'size' => $validated['size'] ?? null,
+                    'paper_type' => $validated['paper_type'] ?? null,
+                    'paper_weight' => $validated['paper_weight'] ?? null,
+                    'color_spec' => $validated['color_spec'] ?? null,
+                ]);
+                
+                if (!empty($specificationData)) {
+                    $project->specification->update($specificationData);
+                }
+            }
+
+            // Update delivery if exists
+            if ($project->delivery) {
+                $deliveryData = array_filter([
+                    'priority_level' => $validated['priority'] ?? null,
+                    'delivery_date' => $validated['delivery_date'] ?? null,
+                    'production_time' => $validated['production_time'] ?? null,
+                    'delivery_address' => $validated['delivery_address'] ?? null,
+                    'delivery_method' => $validated['delivery_method'] ?? null,
+                ]);
+                
+                if (!empty($deliveryData)) {
+                    $project->delivery->update($deliveryData);
+                }
+            }
+        });
+
+        return redirect()
+            ->route('orders.show', $project->id)
+            ->with('success', 'Project details updated successfully!');
     }
 
-    /**
-     * Delete order
-     */
     public function destroy(Project $project)
     {
         $project->delete();
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    }
+
+    public function updateStatus(Project $project)
+    {
+        if ($project->status === 'Complete') {
+            return back()->with('error', 'Project is already completed.');
+        }
+
+        $userRole = Auth::check() ? Auth::user()->role : null;
+
+        $allowed = [
+            'printing'  => 'Pre-press',
+            'postpress' => 'Printing',
+            'packaging' => 'Post-press',
+        ];
+
+        $statuses = ['Pre-press', 'Printing', 'Post-press', 'Packaging', 'Complete'];
+        $currentIndex = array_search($project->status, $statuses);
+
+        if (isset($allowed[$userRole]) && $project->status === $allowed[$userRole]) {
+            $nextStatus = $statuses[$currentIndex + 1] ?? null;
+
+            if ($nextStatus) {
+                $project->update(['status' => $nextStatus]);
+                return back()->with('success', "Project moved to $nextStatus stage.");
+            }
+        }
+
+        return back()->with('error', 'You are not authorized to update this status.');
     }
 }
