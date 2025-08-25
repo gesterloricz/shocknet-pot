@@ -81,7 +81,6 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="phone_number" class="form-label">Phone Number</label>
-                                    <!-- Fixed name attribute to match controller expectation -->
                                     <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
                                 </div>
                                 <div class="col-md-6">
@@ -119,7 +118,6 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Printing Method Preference</label>
-                                <!-- Updated to use dropdown instead of radio buttons -->
                                 <select class="form-select" id="printing_method" name="printing_method" required>
                                     <option value="">Select Printing Method</option>
                                     <option value="offset_high_volume">Offset Printing (High Volume)</option>
@@ -131,7 +129,6 @@
                         <div class="row g-3">
                             <div class="col-md-3">
                                 <label for="size" class="form-label">Size / Dimensions</label>
-                                <!-- Fixed name attribute to match controller expectation -->
                                 <select class="form-select" id="size" name="size">
                                     <option value="">Select Size</option>
                                     <option value="a4">A4</option>
@@ -160,7 +157,6 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="color_spec" class="form-label">Color Specification</label>
-                                <!-- Fixed name attribute to match controller expectation -->
                                 <select class="form-select" id="color_spec" name="color_spec">
                                     <option value="">Select Colors</option>
                                     <option value="full_color">Full Color (CMYK)</option>
@@ -177,7 +173,6 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="finishing_option" class="form-label">Finishing Option</label>
-                                <!-- Updated dropdown options to match attachment -->
                                 <select class="form-select" id="finishing_option" name="finishing_option">
                                     <option value="">Select Finishing Option</option>
                                     <option value="cutting_trimming">Cutting/Trimming</option>
@@ -235,7 +230,6 @@
                                             <i class="fas fa-cloud-upload-alt fa-3x text-muted"></i>
                                         </div>
                                         <p class="mb-2"><strong>Click to upload</strong> or drag and drop files here</p>
-                                        <!-- Fixed name attribute to match controller expectation -->
                                         <input type="file" class="form-control d-none" id="design_files" name="artwork_file[]" multiple accept=".pdf,.ai,.eps,.psd,.jpg,.png">
                                     </div>
                                 </div>
@@ -244,7 +238,6 @@
                                     <div class="mt-2">
                                         <label for="file_status" class="form-label">File Status</label>
                                         <div class="mt-2">
-                                            <!-- Updated to use dropdown instead of radio buttons -->
                                             <select class="form-select" id="file_status" name="file_status">
                                                 <option value="">Select</option>
                                                 <option value="print_ready">Print-Ready Files</option>
@@ -299,8 +292,8 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="production_time" class="form-label">Estimated Production Time</label>
-                                <input type="text" class="form-control" id="production_time" name="production_time" readonly>
+                                <label for="estimated_production_time" class="form-label">Estimated Production Time</label>
+                                <input type="text" class="form-control" id="estimated_production_time" name="estimated_production_time" readonly>
                             </div>
                         </div>
                     </div>
@@ -309,9 +302,8 @@
                         <h6 class="text-dark fw-bold mb-3">Packaging & Special Requirements</h6>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <!-- Updated to use dropdown instead of checkboxes -->
-                                <label for="packaging_requirements" class="form-label">Packing Requirements</label>
-                                <select class="form-select" id="packaging_requirements" name="packaging_requirements">
+                                <label for="packing_requirements" class="form-label">Packing Requirements</label>
+                                <select class="form-select" id="packing_requirements" name="packing_requirements">
                                     <option value="">Select Packing Requirement</option>
                                     <option value="standard">Standard Packaging</option>
                                     <option value="custom_branded">Custom Branded Packaging</option>
@@ -329,12 +321,11 @@
         <div class="step-content d-none" id="step-5">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <!-- Replaced placeholder content with comprehensive order summary -->
                     <div class="p-4 bg-white rounded">
                         <h5 class="mb-4 text-dark fw-bold">5. Order Summary</h5>
                         <p class="text-muted mb-4">Review your order details before placing the order.</p>
 
-                        <!-- Client Information Summary -->
+                        <!-- client information Summary -->
                         <div class="mb-4">
                             <h6 class="text-dark fw-bold mb-3 border-bottom pb-2">Client Information</h6>
                             <div class="row g-3">
@@ -371,7 +362,7 @@
                             </div>
                         </div>
 
-                        <!-- Product Specifications Summary -->
+                        <!-- product specifications Summary -->
                         <div class="mb-4">
                             <h6 class="text-dark fw-bold mb-3 border-bottom pb-2">Product Specifications</h6>
                             <div class="row g-3">
@@ -438,7 +429,7 @@
                             </div>
                         </div>
 
-                        <!-- Timeline & Delivery Summary -->
+                        <!-- timeline & delivery Summary -->
                         <div class="mb-4">
                             <h6 class="text-dark fw-bold mb-3 border-bottom pb-2">Timeline & Delivery</h6>
                             <div class="row g-3">
@@ -593,13 +584,11 @@
         showStep(1);
 
         function generateOrderSummary() {
-            // Populate Client Information
             document.getElementById('summary-client-name').textContent = document.getElementById('client_name').value || '-';
             document.getElementById('summary-email').textContent = document.getElementById('email').value || '-';
             document.getElementById('summary-phone').textContent = document.getElementById('phone_number').value || '-';
             document.getElementById('summary-project-name').textContent = document.getElementById('project_name').value || '-';
 
-            // Populate Product Specifications
             document.getElementById('summary-product-type').textContent = getOptionText('product_type', document.getElementById('product_type').value) || '-';
             document.getElementById('summary-quantity').textContent = document.getElementById('quantity').value || '-';
             document.getElementById('summary-printing-method').textContent = getOptionText('printing_method', document.getElementById('printing_method').value) || '-';
@@ -609,28 +598,24 @@
             document.getElementById('summary-color').textContent = getOptionText('color_spec', document.getElementById('color_spec').value) || '-';
             document.getElementById('summary-binding').textContent = getOptionText('binding_type', document.getElementById('binding_type').value) || '-';
 
-            // Handle finishing options
             const finishingOption = getOptionText('finishing_option', document.getElementById('finishing_option').value);
             if (finishingOption && finishingOption !== '-') {
                 document.getElementById('summary-finishing').textContent = finishingOption;
                 document.getElementById('summary-finishing-section').style.display = 'block';
             }
 
-            // Populate Timeline & Delivery
             document.getElementById('summary-delivery-date').textContent = document.getElementById('delivery_date').value || '-';
             document.getElementById('summary-priority').textContent = getOptionText('priority_level', document.getElementById('priority_level').value) || '-';
             document.getElementById('summary-delivery-method').textContent = getOptionText('delivery_method', document.getElementById('delivery_method').value) || '-';
-            document.getElementById('summary-production-time').textContent = document.getElementById('production_time').value || '-';
+            document.getElementById('summary-production-time').textContent = document.getElementById('estimated_production_time').value || '-';
 
-            // Handle delivery address
             const deliveryAddress = document.getElementById('delivery_address').value;
             if (deliveryAddress) {
                 document.getElementById('summary-delivery-address').textContent = deliveryAddress;
                 document.getElementById('summary-delivery-address-section').style.display = 'block';
             }
 
-            // Handle packaging
-            const packaging = getOptionText('packaging_requirements', document.getElementById('packaging_requirements').value);
+            const packaging = getOptionText('packing_requirements', document.getElementById('packing_requirements').value);
             if (packaging && packaging !== '-') {
                 document.getElementById('summary-packaging').textContent = packaging;
                 document.getElementById('summary-packaging-section').style.display = 'block';
@@ -667,9 +652,9 @@
                 productionTime = "Standard (" + diffDays + " days available)";
             }
 
-            document.getElementById("production_time").value = productionTime;
+            document.getElementById("estimated_production_time").value = productionTime;
         } else {
-            document.getElementById("production_time").value = "";
+            document.getElementById("estimated_production_time").value = "";
         }
     });
 </script>

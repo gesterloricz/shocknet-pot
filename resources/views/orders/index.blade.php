@@ -6,7 +6,6 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Order Status Dashboard</h2>
         <div class="d-flex gap-2">
-            <button class="btn btn-outline-custom-secondary me-2">Search</button>
             <a href="{{ route('orders.create') }}" class="btn btn-custom-primary">New Order</a>
 
         </div>

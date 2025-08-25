@@ -11,8 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->string('project_name');
-            $table->enum('status', ['Pre-press', 'Printing', 'Post-press', 'Packaging'])
-                  ->default('Pre-press');
+            $table->enum('status', ['pre-press', 'printing', 'post-press', 'packaging'])
+                  ->default('pre-press');
 
             $table->timestamps();
         });

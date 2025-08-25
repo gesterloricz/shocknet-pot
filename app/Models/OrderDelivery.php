@@ -14,6 +14,8 @@ class OrderDelivery extends Model
         'delivery_address',
         'delivery_date',
         'delivery_method',
+        'packing_requirements',
+        'estimated_production_time',
     ];
 
     public function project()

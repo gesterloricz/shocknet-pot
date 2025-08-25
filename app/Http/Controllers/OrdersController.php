@@ -27,13 +27,13 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            // Client + Project
+            // client + project
             'client_name'       => 'required|string|max:255',
             'email'             => 'nullable|email|max:255',
             'phone_number'      => 'nullable|string|max:20',
             'project_name'      => 'required|string|max:255',
 
-            // Product Specification
+            // product specification
             'product_type'      => 'required|string',
             'quantity'          => 'required|integer|min:1',
             'printing_method'   => 'required|string',
@@ -45,16 +45,17 @@ class OrdersController extends Controller
             'binding_type'      => 'nullable|string',
             'lamination_type'   => 'nullable|string',
 
-            // Files
+            // files
             'artwork_file.*'    => 'file|mimes:pdf,jpg,png,ai,psd|max:10240',
             'file_status'       => 'nullable|string',
 
-            // Delivery Info
+            // delivery Info
             'delivery_address'  => 'required|string|max:500',
             'delivery_date'     => 'required|date',
             'delivery_method'   => 'required|string',
             'priority_level'    => 'nullable|string',
-            'packaging_requirements' => 'nullable|string',
+            'packing_requirements' => 'nullable|string',
+            'estimated_production_time' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($request, $validated) {
@@ -70,7 +71,7 @@ class OrdersController extends Controller
             $project = Project::create([
                 'client_id'    => $client->id,
                 'project_name' => $validated['project_name'],
-                'status'       => 'Pre-press',
+                'status'       => 'pre-press',
             ]);
 
             // product specification
@@ -108,7 +109,8 @@ class OrdersController extends Controller
                 'delivery_date'        => $validated['delivery_date'],
                 'delivery_method'      => $validated['delivery_method'],
                 'priority_level'       => $validated['priority_level'] ?? null,
-                'packaging_requirements' => $validated['packaging_requirements'] ?? null,
+                'packing_requirements' => $validated['packing_requirements'] ?? null,
+                'estimated_production_time' => $validated['estimated_production_time'] ?? null,
             ]);
         });
 
@@ -123,84 +125,76 @@ class OrdersController extends Controller
 
     public function edit(Project $project)
     {
-        // Load all related data needed for the edit form
         $project->load(['client', 'specification', 'delivery', 'files']);
-        
-        // Calculate next stage for the timeline
+
         $statuses = ['Pre-press', 'Printing', 'Post-press', 'Packaging', 'Complete'];
         $currentIndex = array_search($project->status, $statuses);
         $nextStage = isset($statuses[$currentIndex + 1]) ? $statuses[$currentIndex + 1] : 'Complete';
-        
+
         return view('orders.edit', compact('project', 'nextStage'));
     }
 
     public function update(Request $request, Project $project)
     {
         $validated = $request->validate([
-            // Project fields
             'status'          => 'required|in:pre-press,printing,post-press,packaging,complete',
-            'priority'        => 'nullable|in:normal,high,urgent',
+            'priority'        => 'nullable|in:standard,urgent,rush',
             'delivery_date'   => 'nullable|date',
-            'production_time' => 'nullable|string|max:255',
             'notes'           => 'nullable|string',
-            
-            // Product specification fields
-            'product_type'      => 'nullable|string',
-            'quantity'          => 'nullable|integer|min:1',
-            'printing_method'   => 'nullable|string',
-            'size'              => 'nullable|string',
-            'paper_type'        => 'nullable|string',
-            'paper_weight'      => 'nullable|string',
-            'color_spec'        => 'nullable|string',
-            
-            // Delivery fields
-            'delivery_address'  => 'nullable|string|max:500',
-            'delivery_method'   => 'nullable|string',
+            'product_type'    => 'nullable|string',
+            'quantity'        => 'nullable|integer|min:1',
+            'printing_method' => 'nullable|string',
+            'size'            => 'nullable|string',
+            'paper_type'      => 'nullable|string',
+            'paper_weight'    => 'nullable|string',
+            'color_spec'      => 'nullable|string',
+            'delivery_address' => 'nullable|string|max:500',
+            'delivery_method'  => 'nullable|string',
+            'packing_requirements' => 'nullable|string',
+            'estimated_production_time' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($validated, $project) {
-            // Update project
+            // ✅ Save clean lowercase value directly
             $project->update([
                 'status' => $validated['status'],
             ]);
 
-            // Update specification if exists
-            if ($project->specification) {
-                $specificationData = array_filter([
-                    'product_type' => $validated['product_type'] ?? null,
-                    'quantity' => $validated['quantity'] ?? null,
-                    'printing_method' => $validated['printing_method'] ?? null,
-                    'size' => $validated['size'] ?? null,
-                    'paper_type' => $validated['paper_type'] ?? null,
-                    'paper_weight' => $validated['paper_weight'] ?? null,
-                    'color_spec' => $validated['color_spec'] ?? null,
-                ]);
-                
-                if (!empty($specificationData)) {
-                    $project->specification->update($specificationData);
-                }
+            // specification
+            $specificationData = array_filter([
+                'product_type'     => $validated['product_type'] ?? null,
+                'quantity'         => $validated['quantity'] ?? null,
+                'printing_method'  => $validated['printing_method'] ?? null,
+                'size'             => $validated['size'] ?? null,
+                'paper_type'       => $validated['paper_type'] ?? null,
+                'paper_weight'     => $validated['paper_weight'] ?? null,
+                'color_spec'       => $validated['color_spec'] ?? null,
+            ]);
+
+            if (!empty($specificationData)) {
+                $project->specification()->updateOrCreate([], $specificationData);
             }
 
-            // Update delivery if exists
-            if ($project->delivery) {
-                $deliveryData = array_filter([
-                    'priority_level' => $validated['priority'] ?? null,
-                    'delivery_date' => $validated['delivery_date'] ?? null,
-                    'production_time' => $validated['production_time'] ?? null,
-                    'delivery_address' => $validated['delivery_address'] ?? null,
-                    'delivery_method' => $validated['delivery_method'] ?? null,
-                ]);
-                
-                if (!empty($deliveryData)) {
-                    $project->delivery->update($deliveryData);
-                }
+            // delivery
+            $deliveryData = array_filter([
+                'priority_level' => $validated['priority'] ?? null,
+                'delivery_date' => $validated['delivery_date'] ?? null,
+                'delivery_address' => $validated['delivery_address'] ?? null,
+                'delivery_method' => $validated['delivery_method'] ?? null,
+                'packing_requirements' => $validated['packing_requirements'] ?? null,
+                'estimated_production_time' => $validated['estimated_production_time'] ?? null,
+            ]);
+
+            if (!empty($deliveryData)) {
+                $project->delivery()->updateOrCreate([], $deliveryData);
             }
         });
 
         return redirect()
-            ->route('orders.show', $project->id)
-            ->with('success', 'Project details updated successfully!');
+            ->route('orders.index')
+            ->with('success', 'Order updated successfully!');
     }
+
 
     public function destroy(Project $project)
     {

@@ -14,11 +14,13 @@ return new class extends Migration {
             $table->date('delivery_date');
             $table->string('delivery_method');
             $table->string('packing_requirements')->nullable();
+            $table->string('estimated_production_time')->nullable();
             $table->timestamps();
         });
     }
+
     public function down(): void
     {
-        Schema::dropIfExists('order_delivery');
+        Schema::dropIfExists('order_deliveries');
     }
 };

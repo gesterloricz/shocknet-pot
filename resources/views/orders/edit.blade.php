@@ -2,53 +2,46 @@
 
 @section('content')
 <div class="container-fluid px-4 py-4">
-    <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 fw-bold text-dark">Order #{{ $project->id }}</h2>
         <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary">Back to Orders</a>
     </div>
 
-    <!-- Order Status Timeline -->
     <div class="bg-white rounded p-4 mb-4">
         <div class="progress-container mb-4">
             <div class="progress-steps d-flex justify-content-between align-items-center position-relative">
                 <div class="progress-line"></div>
 
-                <!-- Step 1: Pre-press -->
                 <div class="step-item text-center">
-                    <div class="step-circle {{ $project->status == 'Pre-press' ? 'active' : (in_array($project->status, ['Printing', 'Post-press', 'Packaging', 'Complete']) ? 'completed' : '') }}" data-step="pre-press">
+                    <div class="step-circle {{ $project->status == 'pre-press' ? 'active' : (in_array($project->status, ['printing', 'post-press', 'packaging', 'complete']) ? 'completed' : '') }}" data-step="pre-press">
                         <span>1</span>
                     </div>
                     <div class="step-label mt-2">Pre-press</div>
                 </div>
 
-                <!-- Step 2: Printing -->
                 <div class="step-item text-center">
-                    <div class="step-circle {{ $project->status == 'Printing' ? 'active' : (in_array($project->status, ['Post-press', 'Packaging', 'Complete']) ? 'completed' : '') }}" data-step="printing">
+                    <div class="step-circle {{ $project->status == 'printing' ? 'active' : (in_array($project->status, ['post-press', 'packaging', 'complete']) ? 'completed' : '') }}" data-step="printing">
                         <span>2</span>
                     </div>
                     <div class="step-label mt-2">Printing</div>
                 </div>
 
-                <!-- Step 3: Post-press -->
                 <div class="step-item text-center">
-                    <div class="step-circle {{ $project->status == 'Post-press' ? 'active' : (in_array($project->status, ['Packaging', 'Complete']) ? 'completed' : '') }}" data-step="post-press">
+                    <div class="step-circle {{ $project->status == 'post-press' ? 'active' : (in_array($project->status, ['packaging', 'complete']) ? 'completed' : '') }}" data-step="post-press">
                         <span>3</span>
                     </div>
                     <div class="step-label mt-2">Post-press</div>
                 </div>
 
-                <!-- Step 4: Packaging -->
                 <div class="step-item text-center">
-                    <div class="step-circle {{ $project->status == 'Packaging' ? 'active' : ($project->status == 'Complete' ? 'completed' : '') }}" data-step="packaging">
+                    <div class="step-circle {{ $project->status == 'packaging' ? 'active' : ($project->status == 'Complete' ? 'completed' : '') }}" data-step="packaging">
                         <span>4</span>
                     </div>
                     <div class="step-label mt-2">Packaging</div>
                 </div>
 
-                <!-- Step 5: Complete -->
                 <div class="step-item text-center">
-                    <div class="step-circle {{ $project->status == 'Complete' ? 'active completed' : '' }}" data-step="complete">
+                    <div class="step-circle {{ $project->status == 'complete' ? 'active completed' : '' }}" data-step="complete">
                         <span>5</span>
                     </div>
                     <div class="step-label mt-2">Complete</div>
@@ -56,7 +49,6 @@
             </div>
         </div>
 
-        <!-- Status Information -->
         <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <strong class="text-dark">Current Status:</strong>
@@ -75,17 +67,14 @@
         </div>
     </div>
 
-    <!-- Order Edit Form -->
     <form action="{{ route('orders.update', $project->id) }}" method="POST">
         @csrf
         @method('PUT')
 
-        <!-- Client Information Section -->
         <div class="bg-white rounded p-4 mb-4">
             <h5 class="mb-4 fw-semibold text-dark">Client Information</h5>
 
             <div class="row g-4">
-                <!-- Client ID -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Client ID</label>
                     <input type="text"
@@ -94,7 +83,6 @@
                         readonly>
                 </div>
 
-                <!-- Client Name -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Client / Contact Name</label>
                     <input type="text"
@@ -103,7 +91,6 @@
                         readonly>
                 </div>
 
-                <!-- Email -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Email Address</label>
                     <input type="email"
@@ -112,7 +99,6 @@
                         readonly>
                 </div>
 
-                <!-- Phone -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Phone Number</label>
                     <input type="text"
@@ -121,7 +107,6 @@
                         readonly>
                 </div>
 
-                <!-- Project Name -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Project Name</label>
                     <input type="text"
@@ -130,7 +115,6 @@
                         readonly>
                 </div>
 
-                <!-- Project Status -->
                 <div class="col-md-6">
                     <label class="form-label text-dark fw-medium">Current Status</label>
                     <input type="text"
@@ -141,7 +125,6 @@
             </div>
         </div>
 
-        <!-- Product Specifications Section -->
         <div class="bg-white rounded p-4 mb-4">
             <h5 class="mb-4 fw-semibold text-dark">Product Specifications</h5>
 
@@ -150,7 +133,7 @@
                     <label for="product_type" class="form-label text-dark fw-medium">Product Type</label>
                     <select class="form-select" id="product_type" name="product_type">
                         <option value="">Select Product Type</option>
-                        <option value="business-cards" {{ old('product_type', $project->specification->product_type ?? '') == 'business-cards' ? 'selected' : '' }}>Business Cards</option>
+                        <option value="business_cards" {{ old('product_type', $project->specification->product_type ?? '') == 'business_cards' ? 'selected' : '' }}>Business Cards</option>
                         <option value="brochures" {{ old('product_type', $project->specification->product_type ?? '') == 'brochures' ? 'selected' : '' }}>Brochures</option>
                         <option value="flyers" {{ old('product_type', $project->specification->product_type ?? '') == 'flyers' ? 'selected' : '' }}>Flyers</option>
                         <option value="posters" {{ old('product_type', $project->specification->product_type ?? '') == 'posters' ? 'selected' : '' }}>Posters</option>
@@ -171,8 +154,8 @@
                     <label for="printing_method" class="form-label text-dark fw-medium">Printing Method</label>
                     <select class="form-select" id="printing_method" name="printing_method">
                         <option value="">Select Printing Method</option>
-                        <option value="offset" {{ old('printing_method', $project->specification->printing_method ?? '') == 'offset' ? 'selected' : '' }}>Offset Printing (High Volume)</option>
-                        <option value="digital" {{ old('printing_method', $project->specification->printing_method ?? '') == 'digital' ? 'selected' : '' }}>Digital Printing (Low Volume)</option>
+                        <option value="offset_high_volume" {{ old('printing_method', $project->specification->printing_method ?? '') == 'offset_high_volume' ? 'selected' : '' }}>Offset Printing (High Volume)</option>
+                        <option value="digital_low_volume" {{ old('printing_method', $project->specification->printing_method ?? '') == 'digital_low_volume' ? 'selected' : '' }}>Digital Printing (Low Volume)</option>
                     </select>
                 </div>
 
@@ -212,15 +195,14 @@
                     <label for="color_spec" class="form-label text-dark fw-medium">Color Specification</label>
                     <select class="form-select" id="color_spec" name="color_spec">
                         <option value="">Select Colors</option>
-                        <option value="full-color" {{ old('color_spec', $project->specification->color_spec ?? '') == 'full-color' ? 'selected' : '' }}>Full Color (CMYK)</option>
-                        <option value="black-white" {{ old('color_spec', $project->specification->color_spec ?? '') == 'black-white' ? 'selected' : '' }}>Black & White</option>
-                        <option value="spot-color" {{ old('color_spec', $project->specification->color_spec ?? '') == 'spot-color' ? 'selected' : '' }}>Spot Color</option>
+                        <option value="full_color" {{ old('color_spec', $project->specification->color_spec ?? '') == 'full_color' ? 'selected' : '' }}>Full Color (CMYK)</option>
+                        <option value="black_white" {{ old('color_spec', $project->specification->color_spec ?? '') == 'black_white' ? 'selected' : '' }}>Black & White</option>
+                        <option value="spot_color" {{ old('color_spec', $project->specification->color_spec ?? '') == 'spot_color' ? 'selected' : '' }}>Spot Color</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- Delivery Details Section -->
         <div class="bg-white rounded p-4 mb-4">
             <h5 class="mb-4 fw-semibold text-dark">Delivery Details</h5>
 
@@ -238,19 +220,17 @@
                     <select class="form-select" id="delivery_method" name="delivery_method">
                         <option value="">Select Delivery Method</option>
                         <option value="pickup" {{ old('delivery_method', $project->delivery->delivery_method ?? '') == 'pickup' ? 'selected' : '' }}>Pickup</option>
-                        <option value="standard" {{ old('delivery_method', $project->delivery->delivery_method ?? '') == 'standard' ? 'selected' : '' }}>Standard Delivery</option>
-                        <option value="express" {{ old('delivery_method', $project->delivery->delivery_method ?? '') == 'express' ? 'selected' : '' }}>Express Delivery</option>
+                        <option value="courier " {{ old('delivery_method', $project->delivery->delivery_method ?? '') == 'courier' ? 'selected' : '' }}>Courier</option>
+                        <option value="postal" {{ old('delivery_method', $project->delivery->delivery_method ?? '') == 'postal' ? 'selected' : '' }}>Postal Service</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- Status Update Section -->
         <div class="bg-white rounded p-4 mb-4">
             <h5 class="mb-4 fw-semibold text-dark">Update Order Status</h5>
 
             <div class="row g-4">
-                <!-- Current Status -->
                 <div class="col-md-6">
                     <label for="status" class="form-label text-dark fw-medium">Order Status</label>
                     <select class="form-select" id="status" name="status" required>
@@ -262,17 +242,15 @@
                     </select>
                 </div>
 
-                <!-- Priority Level -->
                 <div class="col-md-6">
                     <label for="priority" class="form-label text-dark fw-medium">Priority Level</label>
                     <select class="form-select" id="priority" name="priority">
-                        <option value="normal" {{ ($project->delivery->priority_level ?? 'normal') == 'normal' ? 'selected' : '' }}>Normal</option>
-                        <option value="high" {{ ($project->delivery->priority_level ?? '') == 'high' ? 'selected' : '' }}>High</option>
+                        <option value="standard" {{ ($project->delivery->priority_level ?? 'standard') == 'standard' ? 'selected' : '' }}>Standard</option>
                         <option value="urgent" {{ ($project->delivery->priority_level ?? '') == 'urgent' ? 'selected' : '' }}>Urgent</option>
+                        <option value="rush" {{ ($project->delivery->priority_level ?? '') == 'rush' ? 'selected' : '' }}>Rush</option>
                     </select>
                 </div>
 
-                <!-- Delivery Date -->
                 <div class="col-md-6">
                     <label for="delivery_date" class="form-label text-dark fw-medium">Delivery Date</label>
                     <input type="date"
@@ -282,50 +260,18 @@
                         value="{{ old('delivery_date', $project->delivery->delivery_date ?? '') }}">
                 </div>
 
-                <!-- Estimated Production Time -->
                 <div class="col-md-6">
-                    <label for="production_time" class="form-label text-dark fw-medium">Estimated Production Time</label>
+                    <label for="estimated_production_time" class="form-label text-dark fw-medium">Estimated Production Time</label>
                     <input type="text"
                         class="form-control"
-                        id="production_time"
-                        name="production_time"
-                        value="{{ old('production_time', $project->delivery->production_time ?? '') }}"
+                        id="estimated_production_time"
+                        name="estimated_production_time"
+                        value="{{ old('estimated_production_time', $project->delivery->estimated_production_time?? '') }}"
                         placeholder="e.g., 5-7 business days">
                 </div>
-
-                <!-- Order Notes (Additional field) -->
-                <div class="col-12">
-                    <label for="notes" class="form-label text-dark fw-medium">Order Notes</label>
-                    <textarea class="form-control"
-                        id="notes"
-                        name="notes"
-                        rows="3"
-                        placeholder="Add any additional notes or special instructions...">{{ old('notes', $project->notes ?? '') }}</textarea>
-                </div>
             </div>
         </div>
 
-        <!-- Files Section (Display only) -->
-        @if($project->files && $project->files->count() > 0)
-        <div class="bg-white rounded p-4 mb-4">
-            <h5 class="mb-4 fw-semibold text-dark">Uploaded Files</h5>
-            <div class="row g-3">
-                @foreach($project->files as $file)
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center p-3 border rounded">
-                        <i class="fas fa-file me-3 text-muted"></i>
-                        <div>
-                            <div class="fw-medium">{{ basename($file->file_path) }}</div>
-                            <small class="text-muted">Status: {{ ucfirst($file->status ?? 'Uploaded') }}</small>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        <!-- Action Buttons -->
         <div class="d-flex justify-content-end gap-3">
             <a href="{{ route('orders.index') }}" class="btn btn-outline-secondary px-4">Cancel</a>
             <button type="submit" class="btn btn-primary px-4">Update Order</button>
@@ -372,7 +318,6 @@
         color: var(--secondary) !important;
     }
 
-    /* Progress Steps Styling */
     .progress-container {
         padding: 2rem 0;
     }
@@ -440,11 +385,11 @@
 
         const statusOrder = ['pre-press', 'printing', 'post-press', 'packaging', 'complete'];
         const statusLabels = {
-            'pre-press': 'Pre-press',
-            'printing': 'Printing',
-            'post-press': 'Post-press',
-            'packaging': 'Packaging',
-            'complete': 'Complete'
+            'pre-press': 'pre-press',
+            'printing': 'printing',
+            'post-press': 'post-press',
+            'packaging': 'packaging',
+            'complete': 'complete'
         };
 
     });
